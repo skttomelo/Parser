@@ -4,10 +4,36 @@ import lexicalAnalyzerPackage.*;
 
 public class Parse {
 	
-	LexicalAnalyzer LA = null; // we need a lexical analyzer so we can grab tokens
+	public LexicalAnalyzer LA = null; // we need a lexical analyzer so we can grab tokens
+	tokenCodes nextToken = null;
 	
 	public Parse(LexicalAnalyzer lexical_analyzer) {
 		LA = lexical_analyzer;
+	}
+	
+	public void assign() {
+		// we want to repeat assign for however many inputs we had
+		for(int i = 0; i<LA.getInputs().size();i++) {
+			System.out.println("Parsing the statement: "+LA.getInputs().get(i));
+			lex();
+			System.out.println("Enter <assign>");
+			if(nextToken == tokenCodes.IDENT) {
+				lex();
+				if(nextToken == tokenCodes.ASSIGN_OP) {
+					lex();
+					expr();
+				}
+			}
+			System.out.println("Exit <assign>");
+		}
+		System.out.println("END_OF_FILE");
+		/*
+		 * 		else {
+			
+			if(nextToken == tokenCodes.END_OF_LINE) ;
+			else System.out.println("END_OF_FILE"); //we're now at the end of the file
+		}
+		 */
 	}
 	
 	/*
@@ -22,8 +48,8 @@ public class Parse {
 		term();
 		
 		// as long as the next token is + or -, get the next token and parse the next term
-		while (nextToken == ADD_OP || nextToken == SUB_OP) {
-			LA.lex();
+		while (nextToken == tokenCodes.ADD_OP || nextToken == tokenCodes.SUB_OP) {
+			lex();
 			term();
 		}
 		System.out.println("Exit <expr>");
@@ -40,8 +66,8 @@ public class Parse {
 		// parse the first factor
 		factor();
 		
-		while(nextToken == MULT_OP || nextToken == DIV_OP) {
-			LA.lex();
+		while(nextToken == tokenCodes.MULT_OP || nextToken == tokenCodes.DIV_OP) {
+			lex();
 			factor();
 		}
 		
@@ -56,17 +82,18 @@ public class Parse {
 	private void factor() {
 		System.out.println("Enter <factor>");
 		
-		// determione whice RHS
-		if(nextToken == IDENT || nextToken == INT_LIT) LA.lex(); // get the next token
+		// determine which is RHS
+		if(nextToken == tokenCodes.IDENT || nextToken == tokenCodes.INT_LIT) lex(); // get the next token
 		
 		// if the RHS is (<expr>), call lex to pass over the left parenthesis, call expr, and check for the right parenthesis
 		else {
-			if(nextToken == LEF_PAREN) {
-				LA.lex();
+			if(nextToken == tokenCodes.LEFT_PAREN) {
+				lex();
 				expr();
-				if(nextToken == RIGHT_PAREN) LA.lex();
+				if(nextToken == tokenCodes.RIGHT_PAREN) lex();
 				else error();
-			}else error(); // it was not an id, an integer literal, or a left parenthesis
+			}else if(nextToken == tokenCodes.ASSIGN_OP) lex();
+			else error(); // it was not an id, an integer literal, or a left parenthesis
 		}
 		
 		System.out.println("Exit <factor>");
@@ -75,5 +102,11 @@ public class Parse {
 	// print out error message saying which token the error occured at
 	private void error() {
 		System.out.println("Error occured on token: "+nextToken);
+	}
+	
+	// pops nextToken from token_list
+	private void lex() {
+		nextToken = LA.getTokenList().poll();
+		if(nextToken != tokenCodes.END_OF_LINE && nextToken != tokenCodes.END_OF_FILE) System.out.println("Next Token is: "+nextToken);
 	}
 }

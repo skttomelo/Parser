@@ -1,0 +1,4 @@
+sumTotal = (sum + 47    ) / total
+Total = (sum + 47    ) /
+area = (length + width) / 2
+ageNumbers = age + 3 - 5 * (D / C)
