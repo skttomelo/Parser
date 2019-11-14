@@ -1,22 +1,32 @@
 package parserPackage;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import lexicalAnalyzerPackage.*;
 
 public class Parse {
 	
 	public LexicalAnalyzer LA = null; // we need a lexical analyzer so we can grab tokens
 	tokenCodes nextToken = null;
+	FileOutputStream writer;
+	String output = "";
 	
 	public Parse(LexicalAnalyzer lexical_analyzer) {
 		LA = lexical_analyzer;
+		output+="****************************************************\nTrevor H. Crow, CSCI4200, Fall 2019, Parser\n****************************************************\n";
 	}
 	
+	/*
+	 * assign
+	 * <assign> -> = <expr>
+	 */
 	public void assign() {
 		// we want to repeat assign for however many inputs we had
 		for(int i = 0; i<LA.getInputs().size();i++) {
-			System.out.println("Parsing the statement: "+LA.getInputs().get(i));
+			output+="Parsing the statement: "+LA.getInputs().get(i)+"\n";
 			lex();
-			System.out.println("Enter <assign>");
+			output+="Enter <assign>"+"\n";
 			if(nextToken == tokenCodes.IDENT) {
 				lex();
 				if(nextToken == tokenCodes.ASSIGN_OP) {
@@ -24,9 +34,9 @@ public class Parse {
 					expr();
 				}
 			}
-			System.out.println("Exit <assign>");
+			output+="Exit <assign>"+"\n";
 		}
-		System.out.println("END_OF_FILE");
+		output+="END_OF_FILE"+"\n";
 		/*
 		 * 		else {
 			
@@ -42,7 +52,7 @@ public class Parse {
 	 * <expr> -> <term> {(+ | -) <term>}
 	 */
 	private void expr() {
-		System.out.println("Enter <expr>");
+		output+="Enter <expr>"+"\n";
 		
 		// parse the first term
 		term();
@@ -52,7 +62,7 @@ public class Parse {
 			lex();
 			term();
 		}
-		System.out.println("Exit <expr>");
+		output+="Exit <expr>"+"\n";
 	}
 	
 	/*
@@ -61,7 +71,7 @@ public class Parse {
 	 * <term> -> <factor> {(* | /) <factor>}
 	 */
 	private void term() {
-		System.out.println("Enter <term>");
+		output+="Enter <term>"+"\n";
 		
 		// parse the first factor
 		factor();
@@ -71,7 +81,7 @@ public class Parse {
 			factor();
 		}
 		
-		System.out.println("Exit <term>");
+		output+="Exit <term>"+"\n";
 	}
 	
 	/*
@@ -80,7 +90,7 @@ public class Parse {
 	 * <factor> -> id | int_constant | (<expr>)
 	 */
 	private void factor() {
-		System.out.println("Enter <factor>");
+		output+="Enter <factor>"+"\n";
 		
 		// determine which is RHS
 		if(nextToken == tokenCodes.IDENT || nextToken == tokenCodes.INT_LIT) lex(); // get the next token
@@ -96,17 +106,25 @@ public class Parse {
 			else error(); // it was not an id, an integer literal, or a left parenthesis
 		}
 		
-		System.out.println("Exit <factor>");
+		output+="Exit <factor>"+"\n";
 	}
 	
 	// print out error message saying which token the error occured at
 	private void error() {
-		System.out.println("Error occured on token: "+nextToken);
+		output+="Error occured on token: "+nextToken+"\n";
 	}
 	
 	// pops nextToken from token_list
 	private void lex() {
 		nextToken = LA.getTokenList().poll();
-		if(nextToken != tokenCodes.END_OF_LINE && nextToken != tokenCodes.END_OF_FILE) System.out.println("Next Token is: "+nextToken);
+		if(nextToken != tokenCodes.END_OF_LINE && nextToken != tokenCodes.END_OF_FILE) output+="Next Token is: "+nextToken+"\n";
+	}
+	
+	//writes the output to a file
+	public void output() throws IOException {
+		System.out.println(output);
+		writer = new FileOutputStream("parseOut.txt");
+		writer.write(output.getBytes());
+		writer.close();
 	}
 }

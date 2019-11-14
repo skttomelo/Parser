@@ -1,0 +1,134 @@
+****************************************************
+Trevor H. Crow, CSCI4200, Fall 2019, Parser
+****************************************************
+Parsing the statement: sumTotal = (sum + 47    ) / total
+Next Token is: IDENT
+Enter <assign>
+Next Token is: ASSIGN_OP
+Next Token is: LEFT_PAREN
+Enter <expr>
+Enter <term>
+Enter <factor>
+Next Token is: IDENT
+Enter <expr>
+Enter <term>
+Enter <factor>
+Next Token is: ADD_OP
+Exit <factor>
+Exit <term>
+Next Token is: INT_LIT
+Enter <term>
+Enter <factor>
+Next Token is: RIGHT_PAREN
+Exit <factor>
+Exit <term>
+Exit <expr>
+Next Token is: DIV_OP
+Exit <factor>
+Next Token is: IDENT
+Enter <factor>
+Exit <factor>
+Exit <term>
+Exit <expr>
+Exit <assign>
+Parsing the statement: Total = (sum + 47    ) /
+Next Token is: IDENT
+Enter <assign>
+Next Token is: ASSIGN_OP
+Next Token is: LEFT_PAREN
+Enter <expr>
+Enter <term>
+Enter <factor>
+Next Token is: IDENT
+Enter <expr>
+Enter <term>
+Enter <factor>
+Next Token is: ADD_OP
+Exit <factor>
+Exit <term>
+Next Token is: INT_LIT
+Enter <term>
+Enter <factor>
+Next Token is: RIGHT_PAREN
+Exit <factor>
+Exit <term>
+Exit <expr>
+Next Token is: DIV_OP
+Exit <factor>
+Enter <factor>
+Error occured on token: END_OF_LINE
+Exit <factor>
+Exit <term>
+Exit <expr>
+Exit <assign>
+Parsing the statement: area = (length + width) / 2
+Next Token is: IDENT
+Enter <assign>
+Next Token is: ASSIGN_OP
+Next Token is: LEFT_PAREN
+Enter <expr>
+Enter <term>
+Enter <factor>
+Next Token is: IDENT
+Enter <expr>
+Enter <term>
+Enter <factor>
+Next Token is: ADD_OP
+Exit <factor>
+Exit <term>
+Next Token is: IDENT
+Enter <term>
+Enter <factor>
+Next Token is: RIGHT_PAREN
+Exit <factor>
+Exit <term>
+Exit <expr>
+Next Token is: DIV_OP
+Exit <factor>
+Next Token is: INT_LIT
+Enter <factor>
+Exit <factor>
+Exit <term>
+Exit <expr>
+Exit <assign>
+Parsing the statement: ageNumbers = age + 3 - 5 * (D / C)
+Next Token is: IDENT
+Enter <assign>
+Next Token is: ASSIGN_OP
+Next Token is: IDENT
+Enter <expr>
+Enter <term>
+Enter <factor>
+Next Token is: ADD_OP
+Exit <factor>
+Exit <term>
+Next Token is: INT_LIT
+Enter <term>
+Enter <factor>
+Next Token is: SUB_OP
+Exit <factor>
+Exit <term>
+Next Token is: INT_LIT
+Enter <term>
+Enter <factor>
+Next Token is: MULT_OP
+Exit <factor>
+Next Token is: LEFT_PAREN
+Enter <factor>
+Next Token is: IDENT
+Enter <expr>
+Enter <term>
+Enter <factor>
+Next Token is: DIV_OP
+Exit <factor>
+Next Token is: IDENT
+Enter <factor>
+Next Token is: RIGHT_PAREN
+Exit <factor>
+Exit <term>
+Exit <expr>
+Exit <factor>
+Exit <term>
+Exit <expr>
+Exit <assign>
+END_OF_FILE
